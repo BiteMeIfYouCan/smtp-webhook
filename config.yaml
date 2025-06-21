@@ -1,0 +1,21 @@
+# ================== SMTP 列表 ==================
+# 你可以随时增删，不用重建镜像，只需重启容器
+smtp_servers:
+  default:
+    host: smtp.example.com
+    port: 587
+    user: no-reply@example.com
+    password: "********"
+    starttls: true        # false=SSL  true=STARTTLS
+  office365:
+    host: smtp.office365.com
+    port: 587
+    user: admin@corp.com
+    password: "********"
+    starttls: true
+
+# =============== Token & 权限映射 ===============
+# token → 允许使用哪些 smtp_id
+tokens:
+  1234567890abcdef:  ["default"]          # 普通告警
+  0987654321fedcba:  ["default","office365"]   # 超级管理
