@@ -38,12 +38,17 @@ def api_send():
     token    = data.get("token")
     smtp_id  = data.get("smtp_id", "default")
     to       = data.get("to")
-    cc       = data.get("cc") or None
+    cc       = data.get("cc")
     subject  = data.get("subject", "(no subject)")
     body     = data.get("body", "")
     ip       = request.remote_addr
     req_ts   = datetime.datetime.utcnow().isoformat(timespec="seconds")+"Z"
-
+    # ---------CC处理----------
+    if cc:
+        if isinstance(cc, str):
+            cc = [addr.strip() for addr in cc.split(",")]
+    else:
+        cc = None
     # ---------- 校验 ----------
     if token not in CONF["tokens"]:
         log(f'{{"req_ts":"{req_ts}","ip":"{ip}","token":"{token}",'
